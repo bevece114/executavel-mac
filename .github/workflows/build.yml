@@ -1,0 +1,21 @@
+name: Build macOS Executable
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller pandas openpyxl python-docx email-validator
+      - name: Build executable
+        run: pyinstaller --onefile executavel.py
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: executavel
+          path: dist/executavel
