@@ -1,0 +1,26 @@
+name: Build macOS App
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: |
+          pip install pyinstaller pandas openpyxl python-docx email-validator
+
+      - name: Build macOS .app
+        run: pyinstaller --onefile --windowed --name MeuApp executavel.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MeuApp
+          path: dist/MeuApp.app
